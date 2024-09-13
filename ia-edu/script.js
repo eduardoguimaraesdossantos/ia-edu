@@ -11,12 +11,12 @@ const perguntas = [
         alternativas: [
             {
                 texto: "voce pode estar adotando um animalzinho.",
-                afirmacao: "afirmacao"
+                afirmacao: "vocẽ que pensou en adotar um animalzinho é uma pessoa cm um bom coração."
 
             },
             {
                 texto: "abrigo de animais.",
-                afirmacao: "afirmacao"
+                afirmacao: "você tem ótimas ideias"
             }
 
         ]
@@ -26,11 +26,11 @@ const perguntas = [
         alternativas: [
             {
                 texto: "Escolha espécies frutíferas adequadas á sua região, prepare bem o solo e plante em áreas com boa luz solar.",
-                afirmacao: "afirmaccao"
+                afirmacao: "você é uma pessoa muito interessante"
             },
             {
                 texto: "Escolher lugares estratégicos onde podemos aproveitar ao máximo os benefícios que as árvores tem a oferecer. ",
-                afirmacao: "afirmacao"
+                afirmacao: "sim como um parque lindo"
             }
         ]
     },
@@ -40,11 +40,11 @@ const perguntas = [
         alternativas: [
             {
                 texto: "eu quero deixar um legado!",
-                afirmacao: " afirmacao"
+                afirmacao: "tu é uma pessoa determinada"
             },
             {
                 texto: "eu não ligo para a historia, oque importa é o agora, e o futuro!",
-                afirmacao: "afirmacao"
+                afirmacao: "você não liga para a opinião alheia"
             }
 
         ]
@@ -53,23 +53,39 @@ const perguntas = [
 
 let atual = 0;
 let perguntaAtual;
+let historiaFinal = "";
 
-function mostraPergunta() {
+function mostraPergunta(){
+    if(atual >= perguntas.length){
+        mostraResultado();
+        return;
+    }
     perguntaAtual = perguntas[atual];
     caixaPerguntas.textContent = perguntaAtual.enunciado;
+    caixaAlternativas.textContent = "";
     mostraAlternativas();
 }
-
-function mostraAlternativas() {
-    for (const alternativa of perguntaAtual.alternativas) {
+function mostraAlternativas(){
+    for(const alternativa of perguntaAtual.alternativas){
         const botaoAlternativas = document.createElement("button");
-        botaoAlternativas.textContent = alternativa;
-        botaoAlternativas.addEventListener("click", function(){
-            atual++;
-            mostrarPergunta();
-        })
+        botaoAlternativas.textContent = alternativa.texto;
+        botaoAlternativas.addEventListener("click", () => respostaSelecionada(alternativa));
         caixaAlternativas.appendChild(botaoAlternativas);
     }
+
 }
+function respostaSelecionada(opcaoSelecionada) {
+    const afirmacoes = opcaoSelecionada.afirmacao;
+    historiaFinal += afirmacoes + " ";
+    atual++
+    mostraPergunta();
+}
+function mostraResultado(){
+    caixaPerguntas.textContent = "Olha só o que podemos afirmar sobre você...";
+    textoResultado.textContent = historiaFinal;
+    caixaAlternativas.textContent = "";
+}
+
+
 
 mostraPergunta();
